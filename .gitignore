@@ -17,6 +17,20 @@
 *.zip
 *.tar.gz
 *.rar
+*.iml
+*/target
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+api/src/main/resources/
+api/src/test/
+api/target/classes/
+api/target/generated-sources/
+backend/src/main/resources/
+backend/src/test/
+backend/target/classes/
+backend/target/generated-sources/
+backend/target/rest/api/WEB-INF/
+impl/src/test/
+impl/target/classes/org/
+impl/target/generated-sources/
