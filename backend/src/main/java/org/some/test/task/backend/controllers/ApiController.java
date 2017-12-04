@@ -69,11 +69,7 @@ public class ApiController {
         StringBuilder errors = new StringBuilder();
         if(profileModel.getFio()==null)
             errors.append(messageSource.getMessage("fio.empty", null, "Default", new Locale("en"))).append("\n");
-        Pattern pattern = Pattern.compile("^(?:[a-zA-Z0-9_'^&/+-])+(?:\\\\.(?:[a-zA-Z0-9_'^&/+-])+)\" +\n" +
-                "\" +\n" +
-                "            \"      \\\"*@(?:(?:\\\\\\\\[?(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))\\\\\\\\.)\\\" +\\n\" +\n" +
-                "            \"      \\\"{3}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\\\\\\\]?)|(?:[a-zA-Z0-9-]+\\\\\\\\.)\\\" +\\n\" +\n" +
-                "            \"      \"+(?:[a-zA-Z]){2,}\\\\.?)$");
+        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         if (!(pattern.matcher(profileModel.getEmail()).matches()))
             errors.append(messageSource.getMessage("email.invalid", null, "Default", new Locale("en"))).append("\n");
         return errors.toString();
@@ -83,11 +79,11 @@ public class ApiController {
         StringBuilder errors = new StringBuilder();
         if(userModel.getPhone()==null)
             errors.append(messageSource.getMessage("phone.empty", null, "Default", new Locale("en"))).append("\n");
+        else if (userModel.getPhone().length() != 11)
+            errors.append(messageSource.getMessage("phone.invalid", null, "Default", new Locale("en"))).append("\n");
         if(userModel.getPassword()==null)
             errors.append(messageSource.getMessage("password.empty", null, "Default", new Locale("en"))).append("\n");
-        if (userModel.getPhone().length() != 11)
-            errors.append(messageSource.getMessage("phone.invalid", null, "Default", new Locale("en"))).append("\n");
-        if (userModel.getPassword().length() < 6 || userModel.getPassword().length() > 32)
+        else if (userModel.getPassword().length() < 6 || userModel.getPassword().length() > 32)
             errors.append(messageSource.getMessage("password.invalid", null, "Default", new Locale("en"))).append("\n");
         if (facade.existUserWithThisPhone(userModel.getPhone()))
             errors.append(messageSource.getMessage("user.exist", null, "Default", new Locale("en"))).append("\n");
